@@ -6,5 +6,9 @@
     
     <!-- Custom JS -->
     <script src="../assets/js/admin-ajax.js"></script>
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>

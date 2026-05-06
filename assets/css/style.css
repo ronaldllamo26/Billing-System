@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
 
 :root {
-    --app-bg: #f3f3f3;          /* Classic App Gray */
-    --win-border: #d1d1d1;
-    --accent-blue: #0067c0;     /* Windows 11 Blue */
-    --text-main: #202020;
-    --sidebar-bg: #ebebeb;
+    --app-bg: #f8fafc;
+    --win-border: #e2e8f0;
+    --accent-blue: #3b82f6;
+    --text-main: #0f172a;
+    --sidebar-bg: #ffffff; /* We'll make it dark via classes if needed, or update here */
 }
 
 body, html {
@@ -51,34 +51,41 @@ body, html {
 
 /* Application Sidebar */
 #sidebar {
-    width: 250px;
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--win-border);
+    width: 240px;
+    background: #0f172a; /* Dark Sidebar like User Accounts */
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    color: #94a3b8;
 }
 
 .sidebar-item {
-    padding: 10px 15px;
+    padding: 12px 20px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: #444;
-    border-left: 3px solid transparent;
+    gap: 12px;
+    font-size: 14px;
+    color: #94a3b8;
+    transition: all 0.2s;
+    margin: 4px 12px;
+    border-radius: 12px;
 }
 
 .sidebar-item:hover {
-    background: rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.05);
+    color: #f8fafc;
 }
 
 .sidebar-item.active {
-    background: #ffffff;
-    border-left: 3px solid var(--accent-blue);
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
     font-weight: 600;
-    color: var(--accent-blue);
+}
+
+.sidebar-item i {
+    width: 18px;
+    height: 18px;
 }
 
 /* Application Content Wrapper */
@@ -210,4 +217,59 @@ body, html {
     border-radius: 3px;
     font-weight: bold;
     text-transform: uppercase;
+}
+
+/* Premium Order Sidebar Enhancements */
+.order-item-chip {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    border: 1px solid #e2e8f0;
+}
+
+.pc-badge-mini {
+    background: #3b82f6;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 900;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #10b981;
+    border-radius: 50%;
+    box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.btn-serve-modern {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    border: none;
+    padding: 6px 15px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+    transition: all 0.2s ease;
+}
+
+.btn-serve-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
 }

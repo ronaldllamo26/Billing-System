@@ -36,16 +36,16 @@
         </div>
         
         <div style="margin-top: auto; padding: 20px;">
-            <div style="background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 11px;">
+            <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 11px;">
                 <div class="d-flex align-items-center gap-2 mb-1">
                     <div style="width: 8px; height: 8px; border-radius: 50%; background: #10b981; box-shadow: 0 0 10px #10b981;"></div>
-                    <span class="fw-bold text-dark">STUXZ AI Active</span>
+                    <span class="fw-bold" style="color: #f8fafc;">STUXZ AI Active</span>
                 </div>
-                <span class="text-muted">Core Engine v1.0</span>
+                <span style="color: #94a3b8;">Core Engine v1.0</span>
             </div>
         </div>
         
-        <div class="sidebar-item text-danger border-top" style="border-left: none;" onclick="window.location.href='../index.php'">
+        <div class="sidebar-item text-danger mt-0" style="border-radius: 12px;" onclick="window.location.href='../index.php'">
             <i data-lucide="power"></i>
             <span>Exit System</span>
         </div>

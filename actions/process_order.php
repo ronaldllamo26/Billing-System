@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             $total_price += $db_item['price'];
-            $items_list[] = $db_item['item_name'];
+            $items_list[] = $db_item['item_name'] . " (₱" . number_format($db_item['price'], 0) . ")";
             
             // Deduct Stock
             $stmt = $pdo->prepare("UPDATE inventory SET stock_quantity = stock_quantity - 1 WHERE id = ?");

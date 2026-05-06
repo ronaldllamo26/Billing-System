@@ -4,258 +4,231 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>STUXZ | Station Online</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Local Assets -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../assets/js/lucide.min.js"></script>
     <style>
+        :root {
+            --accent-blue: #3b82f6;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --glass-bg: rgba(15, 23, 42, 0.85);
+        }
+
         body {
             margin: 0;
             height: 100vh;
-            background: #0a0e17 url('../assets/img/wallpaper.png') no-repeat center center fixed;
+            background: #020617 url('../valorant.png') no-repeat center center fixed;
             background-size: cover;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             overflow: hidden;
             color: white;
         }
 
-        /* Desktop Grid */
+        .bg-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, rgba(2, 6, 23, 0.5) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Desktop Icons */
         .desktop-grid {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 40px;
+            left: 40px;
             display: flex;
             flex-direction: column;
-            flex-wrap: wrap;
-            height: calc(100vh - 100px);
-            align-content: flex-start;
-            gap: 10px;
+            gap: 20px;
+            z-index: 10;
         }
 
         .shortcut {
-            width: 80px;
+            width: 90px;
             text-align: center;
             cursor: pointer;
-            padding: 10px 5px;
-            border-radius: 4px;
-            transition: 0.1s;
+            transition: 0.2s;
+            padding: 10px;
+            border-radius: 12px;
         }
 
-        .shortcut:hover { background: rgba(255, 255, 255, 0.1); }
+        .shortcut:hover { background: rgba(255, 255, 255, 0.1); transform: scale(1.05); }
 
-        .icon-container {
-            position: relative;
-            width: 48px;
-            height: 48px;
-            margin: 0 auto 5px;
-        }
+        .icon-container { width: 54px; height: 54px; margin: 0 auto 8px; position: relative; }
+        .app-icon { width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
 
-        .app-icon { width: 100%; height: 100%; object-fit: contain; }
-
-        .shortcut-arrow {
-            position: absolute;
-            bottom: -2px;
-            left: -2px;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border: 1px solid #999;
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .shortcut-arrow::after { content: '↗'; color: #000; font-size: 10px; font-weight: bold; }
-
-        .shortcut span {
-            font-size: 11px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,1);
-            display: block;
-        }
-
-        /* Taskbar */
-        .taskbar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40px;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            justify-content: space-between;
-            z-index: 2000;
-        }
+        .shortcut span { font-size: 11px; font-weight: 600; text-shadow: 0 2px 4px rgba(0,0,0,1); }
 
         /* Floating Widget */
         .floating-widget {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 280px;
-            background: rgba(15, 23, 42, 0.85);
+            top: 30px;
+            right: 30px;
+            width: 300px;
+            background: var(--glass-bg);
             backdrop-filter: blur(30px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
+            border-radius: 28px;
             padding: 25px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.6);
             z-index: 1000;
         }
 
         .timer-display {
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             font-weight: 900;
             font-family: 'Consolas', monospace;
-            color: #34d399;
+            color: var(--accent-green);
             text-align: center;
-            text-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
+            line-height: 1;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
         }
 
         .btn-action {
             width: 100%;
-            padding: 12px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 14px;
             border: none;
-            background: rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.05);
             color: white;
-            font-weight: 700;
+            font-weight: 800;
             margin-top: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            font-size: 12px;
         }
 
         .btn-action:hover { background: rgba(255,255,255,0.15); }
 
-        /* Order Modal with Cart GUI */
+        /* Order Modal */
         #order-modal {
             position: fixed;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
-            width: 800px;
-            background: #ffffff;
-            border-radius: 24px;
+            width: 850px;
+            background: #fff;
+            border-radius: 30px;
             display: none;
             z-index: 5000;
             color: #1e293b;
             box-shadow: 0 40px 100px rgba(0,0,0,0.8);
             overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         #order-modal.active { display: block; transform: translate(-50%, -50%) scale(1); }
 
-        .modal-body-split { display: grid; grid-template-columns: 1fr 320px; height: 500px; }
-        .menu-section { padding: 20px; overflow-y: auto; border-right: 1px solid #e2e8f0; }
-        .cart-section { background: #f8fafc; padding: 20px; display: flex; flex-direction: column; }
+        .modal-body-split { display: grid; grid-template-columns: 1fr 320px; height: 600px; }
+        .menu-section { padding: 25px; overflow-y: auto; background: #fff; }
+        .cart-section { background: #f8fafc; padding: 25px; display: flex; flex-direction: column; }
         
-        .menu-item {
-            display: flex;
-            gap: 15px;
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 10px;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            transition: 0.2s;
-        }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; }
+        .menu-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 15px; cursor: pointer; text-align: center; transition: 0.3s; }
+        .menu-card:hover { transform: translateY(-5px); border-color: var(--accent-blue); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .menu-card img { width: 100%; height: 110px; object-fit: cover; border-radius: 15px; margin-bottom: 10px; }
 
-        .menu-item-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
         .cart-list { flex: 1; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px dashed #cbd5e1; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px dashed #e2e8f0; }
 
-        .modal-overlay {
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(5px); display: none; z-index: 4999; }
+
+        /* Taskbar */
+        .taskbar {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(5px);
-            display: none;
-            z-index: 4999;
+            bottom: 0; left: 0; width: 100%; height: 45px;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            justify-content: space-between;
+            z-index: 2000;
         }
+
+        #lock-shutter { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 99999; display: none; opacity: 0; transition: 0.4s; }
     </style>
 </head>
 <body>
 
+    <div id="lock-shutter"></div>
+    <div class="bg-overlay"></div>
+
     <!-- Desktop Icons -->
     <div class="desktop-grid">
-        <div class="shortcut">
-            <div class="icon-container">
-                <img src="../assets/img/valorant_icon_shortcut_1778071265293.png" class="app-icon">
-                <div class="shortcut-arrow"></div>
-            </div>
+        <div class="shortcut" onclick="alert('Launching Valorant...')">
+            <div class="icon-container"><img src="../valorant.png" class="app-icon"></div>
             <span>Valorant</span>
         </div>
-        <div class="shortcut">
-            <div class="icon-container">
-                <img src="../assets/img/chrome_icon_shortcut_1778071286078.png" class="app-icon">
-                <div class="shortcut-arrow"></div>
-            </div>
-            <span>Google Chrome</span>
+        <div class="shortcut" onclick="alert('Launching League...')">
+            <div class="icon-container"><img src="../lol.png" class="app-icon"></div>
+            <span>League</span>
+        </div>
+        <div class="shortcut" onclick="alert('Launching Dota 2...')">
+            <div class="icon-container"><img src="../dota.png" class="app-icon"></div>
+            <span>Dota 2</span>
         </div>
         <div class="shortcut">
-            <div class="icon-container">
-                <img src="../assets/img/roblox_icon_shortcut_1778071302782.png" class="app-icon">
-                <div class="shortcut-arrow"></div>
-            </div>
-            <span>Roblox Player</span>
-        </div>
-        <div class="shortcut">
-            <div class="icon-container">
-                <img src="../assets/img/this_pc_icon_win11_1778071320030.png" class="app-icon">
-            </div>
-            <span>This PC</span>
-        </div>
-        <div class="shortcut">
-            <div class="icon-container">
-                <i data-lucide="trash-2" style="width: 40px; height: 40px; color: #cbd5e1;"></i>
-            </div>
+            <div class="icon-container"><i data-lucide="trash-2" style="width: 48px; height: 48px; color: rgba(255,255,255,0.3);"></i></div>
             <span>Recycle Bin</span>
         </div>
     </div>
 
     <!-- Floating Widget -->
     <div class="floating-widget">
-        <div class="d-flex justify-content-between align-items-center mb-2">
-            <small class="fw-bold">STATION 04</small>
-            <small class="text-secondary fw-bold">VIP</small>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="badge bg-primary rounded-pill px-3">STATION 04</div>
+            <span class="text-success small fw-bold">• ONLINE</span>
         </div>
-        <div id="timer-display" class="timer-display">59:59</div>
-        <div class="d-flex justify-content-between small text-secondary">
-            <span>User: <strong>GamerXPro</strong></span>
-            <span>Bal: <strong id="player-balance" class="text-info">₱150</strong></span>
+        
+        <div id="timer-display" class="timer-display">59:58</div>
+        
+        <div class="p-3 rounded-4 mb-3" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);">
+            <div class="d-flex justify-content-between small mb-1">
+                <span class="text-white-50">User</span>
+                <span class="fw-bold" id="player-username">admin</span>
+            </div>
+            <div class="d-flex justify-content-between small">
+                <span class="text-white-50">Balance</span>
+                <span class="text-info fw-bold" id="player-balance">₱100.00</span>
+            </div>
         </div>
-        <button class="btn-action" style="background: linear-gradient(135deg, #3b82f6, #2563eb); margin-top: 20px;" onclick="openOrderMenu()">
+
+        <button class="btn-action" style="background: linear-gradient(135deg, #3b82f6, #2563eb);" onclick="openOrderMenu()">
             <i data-lucide="shopping-cart" style="width: 18px;"></i> ORDER FOOD
         </button>
-        <button class="btn-action" onclick="window.location.href='afk_blur_screen.php'">
+        
+        <button class="btn-action" style="background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.2);" onclick="triggerLock()">
             <i data-lucide="lock" style="width: 18px;"></i> AFK LOCK
         </button>
-        <button class="btn-action text-danger mt-3" style="background: rgba(239, 68, 68, 0.1);" onclick="window.location.href='../index.php'">
+        
+        <button class="btn-action text-danger mt-3" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);" onclick="window.location.href='../index.php'">
             <i data-lucide="power" style="width: 18px;"></i> LOG OUT
         </button>
     </div>
 
     <!-- Taskbar -->
     <div class="taskbar">
-        <div class="d-flex align-items-center gap-3">
-            <i data-lucide="layout-grid" style="color: #3b82f6; width: 18px;"></i>
-            <i data-lucide="search" style="color: #64748b; width: 16px;"></i>
-            <div class="vr mx-2" style="background: #333; height: 20px;"></div>
-            <i data-lucide="chrome" style="color: #60a5fa; width: 18px;"></i>
-            <i data-lucide="folder" style="color: #f59e0b; width: 18px;"></i>
+        <div class="d-flex align-items-center gap-4">
+            <i data-lucide="layout-grid" style="color: var(--accent-blue); width: 22px;"></i>
+            <i data-lucide="folder" style="color: #f59e0b; width: 20px;"></i>
         </div>
-        <div class="d-flex align-items-center gap-3 text-secondary">
+        <div class="d-flex align-items-center gap-3 text-white-50">
             <i data-lucide="wifi" style="width: 16px;"></i>
-            <i data-lucide="volume-2" style="width: 16px;"></i>
-            <div class="text-end" style="font-size: 10px; line-height: 1;">
+            <div class="text-end" style="font-size: 11px; line-height: 1.1;">
                 <div class="fw-bold text-white"><?php echo date('H:i'); ?></div>
-                <div style="font-size: 8px;"><?php echo date('m/d/Y'); ?></div>
+                <div style="font-size: 9px;"><?php echo date('m/d/Y'); ?></div>
             </div>
         </div>
     </div>
 
-    <!-- Order Modal -->
+    <!-- Order Modal (Restored) -->
     <div id="order-overlay" class="modal-overlay" onclick="closeOrderMenu()"></div>
     <div id="order-modal">
         <div class="modal-header p-3 px-4 bg-light border-bottom d-flex justify-content-between align-items-center">
@@ -282,9 +255,14 @@
 
     <script src="../assets/js/client-timer.js"></script>
     <script>
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined') lucide.createIcons();
         let currentCart = [];
-        let playerBalance = 150;
+
+        function triggerLock() {
+            const shutter = document.getElementById('lock-shutter');
+            shutter.style.display = 'block';
+            setTimeout(() => { shutter.style.opacity = '1'; setTimeout(() => { window.location.href = 'afk_blur_screen.php'; }, 400); }, 10);
+        }
 
         function openOrderMenu() {
             document.getElementById('order-modal').classList.add('active');
@@ -299,6 +277,9 @@
 
         function loadMenu() {
             const container = document.getElementById('menu-items-container');
+            container.innerHTML = '<div class="menu-grid" id="actual-grid"></div>';
+            const grid = document.getElementById('actual-grid');
+
             fetch('../actions/get_inventory.php')
                 .then(res => res.json())
                 .then(data => {
@@ -306,18 +287,13 @@
                         let html = '';
                         data.data.forEach(item => {
                             const isOut = item.stock_quantity <= 0;
-                            html += `
-                                <div class="menu-item ${isOut ? 'opacity-50' : ''}">
-                                    <img src="../assets/img/${item.item_image}" class="menu-item-img">
-                                    <div class="flex-grow-1">
-                                        <div class="fw-bold" style="font-size: 14px;">${item.item_name}</div>
-                                        <div class="text-primary fw-bold small">₱${item.price}</div>
-                                    </div>
-                                    <button class="btn btn-sm btn-outline-primary align-self-center" ${isOut ? 'disabled' : ''} onclick="addToCart(${item.id}, '${item.item_name}', ${item.price})">+ Add</button>
-                                </div>
-                            `;
+                            html += `<div class="menu-card ${isOut ? 'opacity-50' : ''}" onclick="${isOut ? '' : `addToCart(${item.id}, '${item.item_name}', ${item.price})`}">
+                                <img src="../assets/img/${item.item_image}" onerror="this.src='https://via.placeholder.com/150?text=Food'">
+                                <div class="fw-bold text-dark small mb-1">${item.item_name}</div>
+                                <div class="text-primary fw-black">₱${parseFloat(item.price).toFixed(2)}</div>
+                            </div>`;
                         });
-                        container.innerHTML = html;
+                        grid.innerHTML = html;
                     }
                 });
         }
@@ -331,48 +307,29 @@
             const checkoutBtn = document.getElementById('btn-checkout');
             if(currentCart.length === 0) {
                 container.innerHTML = '<div class="text-center text-muted mt-5">Your cart is empty</div>';
-                totalDisplay.innerText = '₱0.00';
-                checkoutBtn.disabled = true; return;
+                totalDisplay.innerText = '₱0.00'; checkoutBtn.disabled = true; return;
             }
             let html = ''; let total = 0;
             currentCart.forEach((item, index) => {
                 total += item.price;
                 html += `<div class="cart-item"><span>${item.name}</span><div class="d-flex gap-2"><span class="fw-bold">₱${item.price}</span><i data-lucide="trash-2" style="width: 14px; color: #ef4444; cursor: pointer;" onclick="removeFromCart(${index})"></i></div></div>`;
             });
-            container.innerHTML = html;
-            totalDisplay.innerText = `₱${total.toFixed(2)}`;
-            checkoutBtn.disabled = false;
-            lucide.createIcons();
+            container.innerHTML = html; totalDisplay.innerText = `₱${total.toFixed(2)}`;
+            checkoutBtn.disabled = false; lucide.createIcons();
         }
 
         function checkout() {
             let total = currentCart.reduce((sum, item) => sum + item.price, 0);
-            
             if(confirm(`Place order for ₱${total.toFixed(2)}?`)) {
                 const formData = new FormData();
                 formData.append('cart_data', JSON.stringify(currentCart));
-
                 fetch('../actions/process_order.php', { method: 'POST', body: formData })
-                .then(res => res.text()) // Get as text first to debug
-                .then(text => {
-                    try {
-                        const data = JSON.parse(text);
-                        if(data.status === 'success') {
-                            alert('Order successful! Admin notified.');
-                            currentCart = []; renderCart(); closeOrderMenu();
-                            // Update display balance immediately
-                            document.getElementById('player-balance').innerText = `₱${data.new_balance.toFixed(2)}`;
-                        } else {
-                            alert('Order Failed: ' + data.message);
-                        }
-                    } catch(e) {
-                        console.error('Server response was not JSON:', text);
-                        alert('Critical Error: Server sent an invalid response.');
-                    }
-                })
-                .catch(err => {
-                    console.error('Fetch error:', err);
-                    alert('Connection Error. Please check your network.');
+                .then(res => res.json())
+                .then(data => {
+                    if(data.status === 'success') {
+                        alert('Order successful!'); currentCart = []; renderCart(); closeOrderMenu();
+                        document.getElementById('player-balance').innerText = `₱${data.new_balance.toFixed(2)}`;
+                    } else alert('Error: ' + data.message);
                 });
             }
         }
