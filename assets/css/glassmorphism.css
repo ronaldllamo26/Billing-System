@@ -1,0 +1,39 @@
+/* Soft Light Mode with Depth & Shadows */
+:root {
+    --bg-dark: #f1f5f9;          /* Soft light slate background */
+    --bg-sidebar: #ffffff;
+    --bg-card: #fdfdfe;          /* Off-white (hindi todo puti) */
+    --glass-border: rgba(0, 0, 0, 0.04);
+    
+    /* Soft Professional Accents */
+    --accent-blue: #3b82f6;
+    --accent-mint: #10b981;
+    --accent-orange: #f59e0b;
+    --accent-red: #ef4444;
+    
+    /* Text */
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+}
+
+.glass-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    /* Elevated Shadow */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 
+                0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+                0 10px 10px -6px rgba(0, 0, 0, 0.04);
+    border-color: rgba(59, 130, 246, 0.1);
+}
+
+.glass-sidebar {
+    background: #ffffff;
+    border-right: 1px solid #e2e8f0;
+}
